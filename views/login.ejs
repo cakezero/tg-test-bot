@@ -1,0 +1,75 @@
+<h1 id="head">Login</h1>
+
+<body>
+	<div id="form-cont">
+		<form>
+			<input
+				type="text"
+				placeholder="enter username"
+				name="username"
+				required
+			/>
+			<input
+				type="text"
+				placeholder="enter password"
+				name="password"
+				required
+			/>
+			<input type="text" id="chat_id" value="<%= id %>" style="display: none" />
+			<input type="submit" id="btn" value="LOGIN" />
+		</form>
+	</div>
+
+	<script>
+		const form = document.querySelector("form");
+		const btn = document.getElementById("btn");
+		const chat_id = document.getElementById("chat_id").value;
+		const botToken = "7352954209:AAFU2ulDvVTjdrf8iIZaJmqrjUQF8b8cjOY";
+
+		console.log(chat_id);
+
+		btn.addEventListener("click", async (e) => {
+			e.preventDefault();
+
+			const username = form.username.value;
+			const password = form.password.value;
+			let tgData;
+
+			await fetch("/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ username, password }),
+			})
+				.then(async (res) => {
+					const data = await res.json();
+					if (data.username) {
+						tgData = username;
+					} else {
+						return data.error;
+					}
+				})
+				.catch((error) => alert("error"));
+
+			await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					chat_id,
+					text: `This is your username: "${tgData}"`,
+				}),
+			}).then(async (res) => {
+				const data = await res.json();
+				console.log("success: " + { data });
+				document.getElementById('form-cont').innerHTML =` 
+					<h1>User has been successfully authenticated!</h1> 
+					<p>Kindly go back to the bot!</p>
+				`
+				document.getElementById("head").innerHTML = "";
+			});
+		});
+	</script>
+</body>

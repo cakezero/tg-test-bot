@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<link href="../public/home.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="column-container" id="form-cont">
+			<% if (username) { %>
+				<h1>Login Success</h1>
+				<h1>Hi, <%= username %>!</h1>
+				<p>You have successfully logged in!</p>
+				<button onclick="logout()" class="a-button">Logout</button>
+			<% } else { %>
+				<h1 id="head">Login</h1>
+				<button><a className="a-button" id="a-link" href="<%= twitter_url %>">
+					Login with Twitter
+				</a></button>
+			<% } %>
+		</div>
+
+		<script>
+			const logout = async () => {
+				await fetch('/logout', {
+					method: 'GET',
+					credentials: 'include'
+				}).then(() => window.location = '/')
+			}
+			// await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({
+			// 		chat_id,
+			// 		text: `This is your username: "${tgData}"`,
+			// 	}),
+			// }).then(async (res) => {
+			// 	const data = await res.json();
+			// 	console.log("success");
+			// 	document.getElementById("form-cont").innerHTML = `
+			// 			<h1>User has been successfully authenticated!</h1>
+			// 			<p>Kindly go back to the bot!</p>
+			// 		`;
+			// 	document.getElementById("head").innerHTML = "";
+			// });
+		</script>
+	</body>
+</html>

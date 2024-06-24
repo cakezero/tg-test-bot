@@ -1,8 +1,11 @@
+import os
+from dotenv import load_dotenv
 from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext
+load_dotenv()
 
-TOKEN = "token gotten from botfather"
-BOT_USERNAME = "bot-name"
+TOKEN = os.getenv('TOKEN')
+BOT_USERNAME = os.getenv('BOT_USERNAME')
 
 
 # Commands
@@ -22,7 +25,7 @@ async def connect(update: Update, context: CallbackContext):
 
   chat_id = update.message.chat_id # type: ignore
   keyboard = [
-    [InlineKeyboardButton("Click to connect account", web_app=WebAppInfo(url=f"https://127.0.0.1:7000/login?id={chat_id}"))]
+    [InlineKeyboardButton("Click to connect account", web_app=WebAppInfo(url=f"https://blocverse.com"))]
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
   await update.message.reply_text("Click the button below to open the Witfora web app", reply_markup=reply_markup) # type: ignore
@@ -66,7 +69,7 @@ async def error_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def run_bot():
   print("starting Bot...")
-  app = Application.builder().token(TOKEN).build()
+  app = Application.builder().token(TOKEN).build() # type: ignore
 
   app.add_handler(CommandHandler("start", start))
   app.add_handler(CommandHandler("help", help))
@@ -83,7 +86,7 @@ def run_bot():
 
 # Fetch messages
   print('Fetching Messages...')
-  app.run_polling(poll_interval=4)
+  app.run_polling(poll_interval=2)
 
 
 if __name__ == "__main__":

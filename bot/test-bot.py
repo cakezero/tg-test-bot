@@ -1,4 +1,5 @@
 import os
+from flask import Flask
 from dotenv import load_dotenv
 from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext
@@ -7,12 +8,14 @@ load_dotenv()
 TOKEN = os.getenv('TOKEN')
 BOT_USERNAME = os.getenv('BOT_USERNAME')
 
+server = Flask(__name__)
+
 
 # Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
   text = 'Welcome to PayMe, a competition platform meant to rival the betting industry and reward users based on their football knowledge' 
   keyboard = [
-    [InlineKeyboardButton("Launch Witfora", web_app=WebAppInfo(url="https://witfora.com"))]
+    [InlineKeyboardButton("Launch PayMe", web_app=WebAppInfo(url="https://url-goes-here.com"))]
   ]
   reply_markup=InlineKeyboardMarkup(keyboard)
   await update.message.reply_text(text, reply_markup=reply_markup) # type: ignore
@@ -25,10 +28,10 @@ async def connect(update: Update, context: CallbackContext):
 
   chat_id = update.message.chat_id # type: ignore
   keyboard = [
-    [InlineKeyboardButton("Click to connect account", web_app=WebAppInfo(url=f"https://tg-test-bot-8m6o.onrender.com"))]
+    [InlineKeyboardButton("Click to connect account", web_app=WebAppInfo(url=f"https://blocverse.com"))]
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
-  await update.message.reply_text("Click the button below to Connect your twitter account", reply_markup=reply_markup) # type: ignore
+  await update.message.reply_text("Click the button below to open the Witfora web app", reply_markup=reply_markup) # type: ignore
 
 
 # Responses
@@ -86,6 +89,7 @@ def run_bot():
 
 # Fetch messages
   print('Fetching Messages...')
+  server.run(host='0.0.0.0', port=5000)
   app.run_polling(poll_interval=2)
 
 

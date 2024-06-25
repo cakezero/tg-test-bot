@@ -11,6 +11,8 @@ BOT_USERNAME = os.getenv('BOT_USERNAME')
 bot = Bot(token=TOKEN)
 server = Flask(__name__)
 
+app = Dispatcher(bot, None, workers=0)
+
 # Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
   text = 'Welcome to PayMe, a competition platform meant to rival the betting industry and reward users based on their football knowledge, use the /connect command to link your account' 
@@ -72,7 +74,7 @@ async def error_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def run_bot():
   print("starting Bot...")
-  app = Application.builder().token(TOKEN).build() # type: ignore
+  # app = Application.builder().token(TOKEN).build() # type: ignore
 
   app.add_handler(CommandHandler("start", start))
   app.add_handler(CommandHandler("help", help))

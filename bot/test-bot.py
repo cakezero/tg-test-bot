@@ -86,7 +86,6 @@ def run_bot():
 
 # Fetch messages
   print('Fetching Messages...')
-  app.run(host="0.0.0.0", port=5000)
   app.run_polling(poll_interval=2)
 
 

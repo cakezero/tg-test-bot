@@ -1,13 +1,14 @@
 import os
 from flask import Flask
 from dotenv import load_dotenv
-from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton
+from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton, Bot
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 BOT_USERNAME = os.getenv('BOT_USERNAME')
 
+bot = Bot(token=TOKEN)
 server = Flask(__name__)
 
 # Commands
@@ -87,15 +88,15 @@ def run_bot():
 
 # Fetch messages
   print('Fetching Messages...')
-  app.set_webhook(url='https://tg-test-bot-95qu.onrender.com/webhook')
+  bot.set_webhook(url='https://tg-test-bot-95qu.onrender.com/webhook')
   server.run(host='0.0.0.0', port=5000)
-  app.run_polling(poll_interval=2)
+  # app.run_polling(poll_interval=2)
 
 
-@app.route('/webhook', methods=['POST'])
+@server.route('/webhook', methods=['POST'])
 def webhook() -> str:
     update = Update.de_json(request.get_json(force=True), bot)
-    dispatcher.process_update(update)
+    app.process_update(update)
     return 'OK', 200
     
 

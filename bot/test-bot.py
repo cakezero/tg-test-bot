@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton, Bot
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext, Dispatcher
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')

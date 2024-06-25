@@ -12,9 +12,9 @@ server = Flask(__name__)
 
 # Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-  text = 'Welcome to PayMe, a competition platform meant to rival the betting industry and reward users based on their football knowledge' 
+  text = 'Welcome to PayMe, a competition platform meant to rival the betting industry and reward users based on their football knowledge, use the /connect command to link your account' 
   keyboard = [
-    [InlineKeyboardButton("Launch PayMe", web_app=WebAppInfo(url="https://url-goes-here.com"))]
+    [InlineKeyboardButton("Launch PayMe", web_app=WebAppInfo(url="https://witfora.com"))]
   ]
   reply_markup=InlineKeyboardMarkup(keyboard)
   await update.message.reply_text(text, reply_markup=reply_markup) # type: ignore
@@ -27,7 +27,7 @@ async def connect(update: Update, context: CallbackContext):
 
   chat_id = update.message.chat_id # type: ignore
   keyboard = [
-    [InlineKeyboardButton("Click to connect account", web_app=WebAppInfo(url=f"https://blocverse.com"))]
+    [InlineKeyboardButton("Click to connect your twitter account", web_app=WebAppInfo(url=f"https://tg-test-bot-8m6o.onrender.com"))]
   ]
   reply_markup = InlineKeyboardMarkup(keyboard)
   await update.message.reply_text("Click the button below to open the Witfora web app", reply_markup=reply_markup) # type: ignore

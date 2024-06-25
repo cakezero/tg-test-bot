@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from telegram import InlineKeyboardMarkup, Update, WebAppInfo, InlineKeyboardButton, Bot
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext, Dispatcher
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, CallbackContext
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
@@ -10,8 +10,6 @@ BOT_USERNAME = os.getenv('BOT_USERNAME')
 
 bot = Bot(token=TOKEN)
 server = Flask(__name__)
-
-app = Dispatcher(bot, None, workers=0)
 
 # Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -74,7 +72,7 @@ async def error_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def run_bot():
   print("starting Bot...")
-  # app = Application.builder().token(TOKEN).build() # type: ignore
+  app = Application.builder().token(TOKEN).build() # type: ignore
 
   app.add_handler(CommandHandler("start", start))
   app.add_handler(CommandHandler("help", help))
@@ -98,7 +96,7 @@ def run_bot():
 @server.route('/webhook', methods=['POST'])
 def webhook() -> str:
     update = Update.de_json(request.get_json(force=True), bot)
-    app.process_update(update)
+    app.update_queue.put(update)
     return 'OK', 200
     
 

@@ -10,7 +10,6 @@ BOT_USERNAME = os.getenv('BOT_USERNAME')
 
 server = Flask(__name__)
 
-
 # Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
   text = 'Welcome to PayMe, a competition platform meant to rival the betting industry and reward users based on their football knowledge' 
@@ -86,12 +85,19 @@ def run_bot():
   # Error
   app.add_error_handler(error_message) # type: ignore
 
-
 # Fetch messages
   print('Fetching Messages...')
+  app.set_webhook(url='https://tg-test-bot-95qu.onrender.com/webhook')
   server.run(host='0.0.0.0', port=5000)
   app.run_polling(poll_interval=2)
 
+
+@app.route('/webhook', methods=['POST'])
+def webhook() -> str:
+    update = Update.de_json(request.get_json(force=True), bot)
+    dispatcher.process_update(update)
+    return 'OK', 200
+    
 
 if __name__ == "__main__":
   run_bot()

@@ -29,7 +29,7 @@ const home = async (req, res) => {
 	
 	const rootUrl = "https://twitter.com/i/oauth2/authorize";
 	const options = {
-		redirect_uri: "http://www.localhost:7000/auth/twitter",
+		redirect_uri: "https://tg-test-bot-8m6o.onrender.com/auth/twitter",
 		client_id: TWITTER_CLIENT_ID,
 		state: "state",
 		response_type: "code",

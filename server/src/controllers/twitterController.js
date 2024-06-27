@@ -52,12 +52,12 @@ const twitterOauth = async (req, res) => {
 	logger.info(code)
 
 	const TwitterOAuthToken = await getTwitterOAuthToken(code);
-	logger.info("Twitter auth token:", { TwitterOAuthToken });
+	console.log("Twitter auth token:", { TwitterOAuthToken });
 
 	if (!TwitterOAuthToken) return res.redirect("/");
 
 	const twitterUser = await getTwitterUser(TwitterOAuthToken.access_token);
-	logger.info("Twitter user info:", { twitterUser });
+	console.log("Twitter user info:", { twitterUser });
 
 	if (!twitterUser) return res.redirect("/");
 
@@ -67,7 +67,8 @@ const twitterOauth = async (req, res) => {
 	const cookie = createToken(twitterUser.id, TwitterOAuthToken.access_token, twitterUser.username);
 	res.cookie("twitter_auth", cookie, { httpOnly: true });
 
-	console.log('cookiee created!', {cookie})
+	logger.info('cookiee created!')
+	console.log('COOKIEEE: ' { cookie })
 	
 	return res.redirect("/");
 }

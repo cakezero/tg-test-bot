@@ -20,7 +20,6 @@ const home = async (req, res) => {
 	const id = req.query.id;
 	const cookie = req.cookies.twitter_auth;
 	let username;
-	console.log({username}, {cookie})
 	
 	if (cookie) {
 		const payload = await jwt.verify(cookie, SECRET_MESSAGE)
@@ -29,7 +28,7 @@ const home = async (req, res) => {
 	
 	const rootUrl = "https://twitter.com/i/oauth2/authorize";
 	const options = {
-		redirect_uri: "https://tg-test-bot-8m6o.onrender.com/auth/twitter",
+		redirect_uri: "http://www.localhost:7000/auth/twitter",
 		client_id: TWITTER_CLIENT_ID,
 		state: "state",
 		response_type: "code",
@@ -52,12 +51,12 @@ const twitterOauth = async (req, res) => {
 	logger.info(code)
 
 	const TwitterOAuthToken = await getTwitterOAuthToken(code);
-	console.log("Twitter auth token:", { TwitterOAuthToken });
+	logger.info("Twitter auth token:", { TwitterOAuthToken });
 
 	if (!TwitterOAuthToken) return res.redirect("/");
 
 	const twitterUser = await getTwitterUser(TwitterOAuthToken.access_token);
-	console.log("Twitter user info:", { twitterUser });
+	logger.info("Twitter user info:", { twitterUser });
 
 	if (!twitterUser) return res.redirect("/");
 
@@ -66,9 +65,6 @@ const twitterOauth = async (req, res) => {
 	// Create a cookie for the user
 	const cookie = createToken(twitterUser.id, TwitterOAuthToken.access_token, twitterUser.username);
 	res.cookie("twitter_auth", cookie, { httpOnly: true });
-
-	logger.info('cookiee created!')
-	console.log('COOKIEEE: ' { cookie })
 	
 	return res.redirect("/");
 }

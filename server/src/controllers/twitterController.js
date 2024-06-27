@@ -66,6 +66,8 @@ const twitterOauth = async (req, res) => {
 	// Create a cookie for the user
 	const cookie = createToken(twitterUser.id, TwitterOAuthToken.access_token, twitterUser.username);
 	res.cookie("twitter_auth", cookie, { httpOnly: true });
+
+	console.log('cookiee created!', {cookie})
 	
 	return res.redirect("/");
 }

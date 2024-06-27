@@ -19,11 +19,11 @@ const home = async (req, res) => {
 
 	const id = req.query.id;
 	const cookie = req.cookies.twitter_auth;
-	let payload;
 	let username;
+	console.log({username}, {cookie})
 	
 	if (cookie) {
-		payload = await jwt.verify(cookie, SECRET_MESSAGE)
+		const payload = await jwt.verify(cookie, SECRET_MESSAGE)
 		username = payload.username;
 	}
 	

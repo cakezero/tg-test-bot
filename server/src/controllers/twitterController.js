@@ -6,12 +6,8 @@ import {
 } from "../utils/twitterAuthConfig.js";
 import { logger } from "../config/logger.js";
 
-const maxAge = 1 * 24 * 60 * 60; // Cookie(user session) expires in 1 day
-
-let username;
-
 const createToken = (id, accessToken, username) => {
-  return jwt.sign({ id, accessToken, username }, SECRET_MESSAGE, { expiresIn: maxAge })
+  return jwt.sign({ id, accessToken, username }, SECRET_MESSAGE, { expiresIn: '1d' })
 }
 
 

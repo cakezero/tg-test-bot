@@ -60,7 +60,12 @@ const twitterOauth = async (req, res) => {
 
 	// Create a cookie for the user
 	const cookie = createToken(twitterUser.id, TwitterOAuthToken.access_token, twitterUser.username);
-	res.cookie("twitter_auth", cookie, { httpOnly: true });
+	res.cookie("twitter_auth", cookie, { 
+					domain: 'https://tg-test-bot-8m6o.onrender.com', // Ensure correct domain
+      		secure: 'production', // Ensure secure in production
+      		sameSite: 'None',
+					httpOnly: true
+		});
 	
 	return res.redirect("/");
 }
